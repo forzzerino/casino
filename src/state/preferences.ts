@@ -1,5 +1,5 @@
 import { DEFAULT_LANGUAGE, LANGUAGES } from '../i18n';
-import type { Language, SoundSettings } from '../types/ui';
+import { CameraMode, type Language, type SoundSettings, type SpinCameraMode } from '../types/ui';
 import { clamp } from '../utils/math';
 import { loadJSON, saveJSON } from '../utils/storage';
 
@@ -8,6 +8,7 @@ const STORAGE_KEY = 'premium-roulette.preferences.v1';
 export interface Preferences {
   readonly language: Language;
   readonly autoCamera: boolean;
+  readonly spinCameraMode: SpinCameraMode;
   readonly soundSettings: SoundSettings;
 }
 
@@ -30,6 +31,7 @@ export function loadPreferences(): Preferences {
   return {
     language: stored?.language && LANGUAGES.includes(stored.language) ? stored.language : DEFAULT_LANGUAGE,
     autoCamera: typeof stored?.autoCamera === 'boolean' ? stored.autoCamera : true,
+    spinCameraMode: stored?.spinCameraMode === CameraMode.BALL ? CameraMode.BALL : CameraMode.WHEEL,
     soundSettings: {
       master: sanitizeVolume(sound.master, DEFAULT_SOUND_SETTINGS.master),
       music: sanitizeVolume(sound.music, DEFAULT_SOUND_SETTINGS.music),

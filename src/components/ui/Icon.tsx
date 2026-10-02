@@ -17,7 +17,8 @@ export type IconName =
   | 'check'
   | 'alert'
   | 'pause'
-  | 'play';
+  | 'play'
+  | 'ball';
 
 const PATHS: Record<IconName, ReactElement> = {
   undo: <path d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11" />,
@@ -48,6 +49,12 @@ const PATHS: Record<IconName, ReactElement> = {
   alert: <path d="M12 8v5M12 16.5h.01M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />,
   pause: <path d="M9 5v14M15 5v14" />,
   play: <path d="M8 5.5v13l10.5-6.5z" />,
+  ball: (
+    <>
+      <circle cx="14" cy="12" r="5" />
+      <path d="M2.5 12h4M3.5 8h3.5M3.5 16h3.5" />
+    </>
+  ),
 };
 
 export function Icon({ name, ...props }: { name: IconName } & SVGProps<SVGSVGElement>) {

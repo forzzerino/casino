@@ -104,6 +104,8 @@ export const tr = {
   'camera.title': 'Kamera',
   'camera.TABLE': 'Masa',
   'camera.WHEEL': 'Çark',
+  'camera.BALL': 'Top',
+  'camera.ballHint': 'Bilyeyi yakından takip eder',
   'camera.DEALER': 'Krupiye',
   'camera.auto': 'Otomatik',
   'camera.autoHint': 'Kamera tur akışını takip eder',

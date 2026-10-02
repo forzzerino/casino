@@ -6,11 +6,14 @@ import { SHOTS, type ShotId } from './cameraShots';
 
 const DESIGN_ASPECT = 16 / 9;
 
-interface Pose {
+export interface Pose {
   readonly position: Vector3;
   readonly target: Vector3;
   fov: number;
 }
+
+/** Supplies the pose of a shot that moves on its own (e.g. the ball cam), every frame. */
+export type DynamicShot = () => Pose;
 
 interface Transition {
   readonly from: Pose;
@@ -35,6 +38,7 @@ export class CameraDirector {
   private readonly followGoal = new Vector3();
   private time = 0;
   private aspect = DESIGN_ASPECT;
+  private readonly dynamicShots = new Map<ShotId, DynamicShot>();
 
   constructor(private readonly camera: PerspectiveCamera) {
     this.computeGoal(0);
@@ -62,7 +66,21 @@ export class CameraDirector {
     this.aspect = aspect;
   }
 
+  /** Lets a shot be driven by live logic instead of a fixed pose; transitions still ease into it. */
+  setDynamicShot(id: ShotId, shot: DynamicShot): void {
+    this.dynamicShots.set(id, shot);
+  }
+
   private computeGoal(time: number): void {
+    const dynamic = this.dynamicShots.get(this.shot);
+    if (dynamic) {
+      const pose = dynamic();
+      this.goal.position.copy(pose.position);
+      this.goal.target.copy(pose.target);
+      this.goal.fov = pose.fov;
+      return;
+    }
+
     const shot = SHOTS[this.shot];
     this.goal.position.copy(shot.position);
     this.goal.target.copy(shot.target);

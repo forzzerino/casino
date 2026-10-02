@@ -26,8 +26,14 @@ Click **Masaya Otur / Take a Seat** — this also unlocks browser audio.
 Other controls: **Geri Al / Undo** (`Ctrl+Z`), **Temizle / Clear**,
 **Tekrarla / Repeat** (`R`), **İkiye Katla / Double** (`D`).
 **Komşular / Neighbours** bets the centre number plus ±1/±2/±3 physical wheel
-neighbours. Camera buttons switch Table / Wheel / Dealer views; **Otomatik /
-Auto** lets the camera follow the round.
+neighbours. Camera buttons switch Table / Wheel / **Top (Ball)** / Dealer
+views; **Otomatik / Auto** lets the camera follow the round, and uses whichever
+of Wheel or Ball you picked last while the wheel spins.
+
+The ball camera is plan-aware rather than a literal chase (the ball starts at
+~2.7 revolutions per second): it waits low where the ball will leave the
+track, glides to where it will land, then rides along with the pocket — with
+its orbit speed capped so it never becomes a spinning, nauseating shot.
 
 **Pause:** `Esc` (or the ⏸ button) freezes the whole table — betting timer,
 wheel, ball, bots and chip animations — and opens a screen with all settings

@@ -9,14 +9,15 @@ import { shotForMode } from './cameraShots';
 const PUSH_IN_LEAD = 0.9;
 /** Pause on the table after "No more bets" before heading to the wheel. */
 const WHEEL_MOVE_DELAY_MS = 450;
-const AUTO_DURATIONS: Readonly<Record<CameraMode, number>> = { TABLE: 2.4, WHEEL: 2.0, DEALER: 2.4 };
+const AUTO_DURATIONS: Readonly<Record<CameraMode, number>> = { TABLE: 2.4, WHEEL: 2.0, BALL: 2.2, DEALER: 2.4 };
 const MANUAL_DURATION = 1.6;
 
 /**
  * Automatic broadcast choreography layered over the manual camera buttons:
  *
- *   BETTING → table · NO MORE BETS → wheel · ball dropping → gentle push-in
- *   RESULT → hold on the wheel · PAYOUT → back to the table
+ *   BETTING → table · NO MORE BETS → wheel (or the ball cam, if that is the
+ *   player's preferred spin view) · ball dropping → gentle push-in (wheel view)
+ *   RESULT → hold · PAYOUT → back to the table
  *
  * Manual selections always win until the next phase change; with "auto" off the
  * camera only moves when the player asks.
@@ -53,7 +54,7 @@ export class CameraChoreographer {
   update(now: number, s: GameState): void {
     if (this.pendingWheelAt > 0 && now >= this.pendingWheelAt) {
       this.pendingWheelAt = 0;
-      if (s.autoCamera && s.gamePhase === GamePhase.NO_MORE_BETS) this.setMode(CameraMode.WHEEL);
+      if (s.autoCamera && s.gamePhase === GamePhase.NO_MORE_BETS) this.setMode(s.spinCameraMode);
     }
 
     const plan = s.spinPlan;

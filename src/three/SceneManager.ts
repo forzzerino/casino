@@ -33,6 +33,7 @@ import { BetPicker } from './betting/BetPicker';
 import { ChipFactory, type ChipLook } from './betting/ChipFactory';
 import { ChipManager, type ChipOwner } from './betting/ChipManager';
 import { LayoutSurface } from './betting/LayoutSurface';
+import { BallCam } from './camera/BallCam';
 import { CameraChoreographer } from './camera/CameraChoreographer';
 import { CameraDirector } from './camera/CameraDirector';
 import { shotForMode } from './camera/cameraShots';
@@ -77,6 +78,7 @@ export class SceneManager {
   private readonly marker: WinMarker;
   private readonly placard: LimitsPlacard;
   private readonly director: CameraDirector;
+  private readonly ballCam = new BallCam();
   private readonly choreographer: CameraChoreographer;
   private readonly picker: BetPicker;
   private readonly disposables: Disposable[] = [];
@@ -131,6 +133,7 @@ export class SceneManager {
     }
 
     this.director = new CameraDirector(this.camera);
+    this.director.setDynamicShot('BALL', () => this.ballCam.pose);
     this.choreographer = new CameraChoreographer(store, this.director);
     this.picker = new BetPicker(this.renderer.domElement, this.camera, this.layout, {
       hover: (spot, x, y) => {
@@ -162,6 +165,7 @@ export class SceneManager {
     (window as unknown as { rouletteScene: unknown }).rouletteScene = {
       projectLayout: (x: number, y: number) => project(this.layout.layoutToWorld({ x, y })),
       projectBall: () => project(this.wheel.ballWorldPosition(new Vector3())),
+      cameraPosition: () => this.camera.position.toArray(),
       shot: () => this.director.shotId,
     };
   }
@@ -317,6 +321,7 @@ export class SceneManager {
     const wheelAngle = wheelAngleAt(state.wheelMotion, now);
     this.wheel.setRotorAngle(wheelAngle);
     this.ball.update(now, state, wheelAngle);
+    this.ballCam.update(realDt, state, now, this.ball.current);
     this.choreographer.update(now, state);
     this.tweens.update(dt);
     this.layout.update(this.gameElapsed);

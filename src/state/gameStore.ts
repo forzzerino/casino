@@ -26,7 +26,7 @@ import type { WheelMotionState } from '../game/roulette/wheelMotion';
 import type { SpinPlan } from '../game/roulette/spinPlanner';
 import type { TranslationKey, TranslationParams } from '../i18n';
 import { GamePhase, PLAYER_ID, type BetMap, type BetSpot } from '../types/game';
-import { CameraMode, type Language, type NoticeTone, type SoundSettings } from '../types/ui';
+import { CameraMode, type Language, type NoticeTone, type SoundSettings, type SpinCameraMode } from '../types/ui';
 import { formatUSDWhole } from '../utils/format';
 import { TAU } from '../utils/math';
 import { mulberry32, randomSeed } from '../utils/random';
@@ -73,6 +73,8 @@ export interface GameState {
 
   cameraMode: CameraMode;
   autoCamera: boolean;
+  /** The view the automatic camera uses while the wheel spins — the player's last Wheel/Ball pick. */
+  spinCameraMode: SpinCameraMode;
   language: Language;
   soundSettings: SoundSettings;
 
@@ -108,7 +110,10 @@ export interface GameActions {
   repeatBets(): void;
   doubleBets(): void;
   refillBalance(): void;
+  /** Camera change made by the choreographer. */
   setCameraMode(mode: CameraMode): void;
+  /** Camera change made by the player; also remembers their preferred spin view. */
+  selectCameraMode(mode: CameraMode): void;
   setAutoCamera(enabled: boolean): void;
   setLanguage(language: Language): void;
   setSoundSettings(patch: Partial<SoundSettings>): void;
@@ -146,6 +151,7 @@ function initialState(): GameState {
     bots: createBots(initialRng, GAME_CONFIG.bots.count, GAME_CONFIG.bots.startingBalanceRange),
     cameraMode: CameraMode.TABLE,
     autoCamera: preferences.autoCamera,
+    spinCameraMode: preferences.spinCameraMode,
     language: preferences.language,
     soundSettings: preferences.soundSettings,
     wheelMotion: { kind: 'idle', startedAt: gameClock.now(), angle0: initialRng() * TAU },
@@ -163,8 +169,8 @@ function initialState(): GameState {
 export const useGameStore = create<GameStore>()(
   subscribeWithSelector((set, get) => {
     const persist = (): void => {
-      const { language, autoCamera, soundSettings } = get();
-      savePreferences({ language, autoCamera, soundSettings });
+      const { language, autoCamera, spinCameraMode, soundSettings } = get();
+      savePreferences({ language, autoCamera, spinCameraMode, soundSettings });
     };
 
     const reject = (reason: BetRejection): void => {
@@ -325,6 +331,14 @@ export const useGameStore = create<GameStore>()(
 
       setCameraMode(mode) {
         if (get().cameraMode !== mode) set({ cameraMode: mode });
+      },
+
+      selectCameraMode(mode) {
+        get().setCameraMode(mode);
+        if ((mode === CameraMode.WHEEL || mode === CameraMode.BALL) && get().spinCameraMode !== mode) {
+          set({ spinCameraMode: mode });
+          persist();
+        }
       },
 
       setAutoCamera(enabled) {

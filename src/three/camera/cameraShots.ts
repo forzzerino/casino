@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 import { CameraMode } from '../../types/ui';
 import { WORLD } from '../sceneLayout';
 
-export type ShotId = 'INTRO' | 'TABLE' | 'WHEEL' | 'WHEEL_CLOSE' | 'DEALER';
+export type ShotId = 'INTRO' | 'TABLE' | 'WHEEL' | 'WHEEL_CLOSE' | 'BALL' | 'DEALER';
 
 export interface Shot {
   readonly position: Vector3;
@@ -51,6 +51,14 @@ export const SHOTS: Readonly<Record<ShotId, Shot>> = {
     drift: 0.35,
     follow: 0.1,
   },
+  /** Fallback only — the live ball cam pose comes from BallCam via CameraDirector.setDynamicShot. */
+  BALL: {
+    position: offset(wheel, 0.37, 1.11, 0.87),
+    target: offset(wheel, 0.0, 0.0, -0.1),
+    fov: 36,
+    drift: 0,
+    follow: 0,
+  },
   DEALER: {
     position: new Vector3(1.95, 1.5, 1.45),
     target: new Vector3(-0.38, -0.08, -0.12),
@@ -64,6 +72,8 @@ export function shotForMode(mode: CameraMode): ShotId {
   switch (mode) {
     case CameraMode.WHEEL:
       return 'WHEEL';
+    case CameraMode.BALL:
+      return 'BALL';
     case CameraMode.DEALER:
       return 'DEALER';
     default:

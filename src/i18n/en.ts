@@ -106,6 +106,8 @@ export const en: Record<keyof typeof tr, string> = {
   'camera.title': 'Camera',
   'camera.TABLE': 'Table',
   'camera.WHEEL': 'Wheel',
+  'camera.BALL': 'Ball',
+  'camera.ballHint': 'Follows the ball up close',
   'camera.DEALER': 'Dealer',
   'camera.auto': 'Auto',
   'camera.autoHint': 'Camera follows the round',

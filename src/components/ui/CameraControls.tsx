@@ -7,6 +7,7 @@ import { Icon, type IconName } from './Icon';
 const MODES: readonly { mode: CameraMode; icon: IconName }[] = [
   { mode: CameraMode.TABLE, icon: 'table' },
   { mode: CameraMode.WHEEL, icon: 'wheel' },
+  { mode: CameraMode.BALL, icon: 'ball' },
   { mode: CameraMode.DEALER, icon: 'dealer' },
 ];
 
@@ -14,7 +15,7 @@ export function CameraControls() {
   const t = useT();
   const cameraMode = useGameStore((s) => s.cameraMode);
   const autoCamera = useGameStore((s) => s.autoCamera);
-  const setCameraMode = useGameStore((s) => s.setCameraMode);
+  const setCameraMode = useGameStore((s) => s.selectCameraMode);
   const setAutoCamera = useGameStore((s) => s.setAutoCamera);
 
   return (
@@ -25,7 +26,7 @@ export function CameraControls() {
           variant="segment"
           active={cameraMode === mode}
           onClick={() => setCameraMode(mode)}
-          title={t(`camera.${mode}`)}
+          title={mode === CameraMode.BALL ? t('camera.ballHint') : t(`camera.${mode}`)}
         >
           <Icon name={icon} />
           <span>{t(`camera.${mode}`)}</span>
