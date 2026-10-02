@@ -1,0 +1,45 @@
+/*
+ * Desktop 16:9 is the primary target. Below 1920×1080 the whole HUD scales via
+ * --hud-zoom (see useHudScale); these rules only rearrange what scaling can't.
+ */
+
+/* Compact HUD (narrow windows): keep the felt clear. */
+.hud.is-compact .bot__bets {
+  display: none;
+}
+
+.hud.is-compact .bot {
+  padding: 8px 0;
+}
+
+@media (max-width: 1600px) {
+  .top-bar__controls .btn--segment span {
+    display: none;
+  }
+
+  .pause-menu__grid {
+    gap: 22px;
+  }
+}
+
+@media (max-height: 860px) {
+  .pause-shortcuts {
+    display: none;
+  }
+}
+
+@media (max-width: 1280px) {
+  .player-bar {
+    grid-template-columns: auto auto auto;
+    gap: 18px;
+  }
+
+  .bet-actions {
+    grid-template-columns: repeat(2, minmax(78px, 1fr));
+  }
+
+  .action-button {
+    height: 40px;
+    flex-direction: row;
+  }
+}

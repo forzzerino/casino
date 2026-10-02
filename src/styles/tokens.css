@@ -1,0 +1,38 @@
+:root {
+  /* Surfaces */
+  --bg: #080908;
+  --panel: rgba(13, 15, 14, 0.84);
+  --panel-strong: rgba(11, 13, 12, 0.94);
+  --panel-raised: #161917;
+  --panel-border: rgba(201, 169, 106, 0.16);
+  --hairline: rgba(241, 236, 225, 0.08);
+
+  /* Brass */
+  --gold: #c9a96a;
+  --gold-bright: #e3c78d;
+  --gold-soft: rgba(201, 169, 106, 0.6);
+  --gold-wash: rgba(201, 169, 106, 0.1);
+
+  /* Type */
+  --text: #f1ece1;
+  --text-dim: rgba(241, 236, 225, 0.66);
+  --text-faint: rgba(241, 236, 225, 0.42);
+
+  /* Roulette colours, restrained */
+  --red: #a3302a;
+  --black: #1b1b1e;
+  --green: #1e7149;
+  --win: #8cc79b;
+  --loss: #d58077;
+  --alert: #d0574c;
+
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+
+  --radius-panel: 14px;
+  --radius-control: 10px;
+  --shadow-panel: 0 18px 40px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --hud-gutter: 24px;
+  --hud-top: 100px;
+}
