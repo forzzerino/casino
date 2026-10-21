@@ -1,9 +1,13 @@
-# Rulet — Premium 3D European Roulette
+# Oyun Salonu — Game Lounge
 
-A playable vertical slice of a single-table European roulette game built with
-React, TypeScript, Three.js and Vite. All assets — table, wheel, chips, room,
-textures, sound and music — are generated procedurally, so the project runs
-with no external files.
+Virtual-credit casino games behind one lobby, built with React, TypeScript and
+Vite. Each game is a self-contained module with its own state and its own
+wallet; the games share only the app shell, the lobby screen, the interface
+language and a few generic utilities. No real money is involved anywhere.
+
+| Game | Route | Folder |
+| --- | --- | --- |
+| European Roulette (3D, Three.js) | `#/roulette` | `src/games/roulette/` |
 
 ## Run
 
@@ -11,12 +15,45 @@ with no external files.
 npm install
 npm run dev        # http://localhost:5173
 npm run build      # typecheck + production bundle in dist/
-npm test           # unit tests (payouts, layout hit-testing, deterministic spins)
+npm test           # unit tests
 ```
 
-Click **Masaya Otur / Take a Seat** — this also unlocks browser audio.
+The app opens on the lobby. Pick a game card; the URL hash (`#/roulette`) keeps
+you in that game across reloads, and the browser Back button returns to the lobby.
 
-## Playing
+## Project structure
+
+```
+src/
+  main.tsx          Entry: fonts, document-level CSS, <App/>
+  app/              Shell: hash router, lazy game host (loading + error states)
+  lobby/            The shared project screen — one card per registered game
+  games/
+    registry.ts     The list of games: id/route, lobby card, code-split loader
+    roulette/       Everything roulette (see below)
+  shared/           Game-agnostic code only — never imports a game
+    i18n/           Shared language store (TR/EN) + typed translator helpers
+    shell/          ShellContext (exitToLobby) and the GameEntry / LobbyCard types
+    audio/          Web Audio synthesis primitives
+    hooks/ utils/   Seedable RNG, storage, easing, math, typed event emitter
+```
+
+Dependencies point one way: `app → lobby → games → shared`. A game reaches the
+shell only through `useShell()`, and every game is loaded on demand, so the
+lobby never downloads Three.js. Wallets are never shared: each game keeps its
+balance in its own store.
+
+**Adding a game:** create `src/games/<id>/` with a default-exported root
+component and a lightweight `lobbyCard.tsx`, then add one entry to
+`src/games/registry.ts`. Scope the game's CSS under its own root class.
+
+## Roulette
+
+Click **Masaya Otur / Take a Seat** — this also unlocks browser audio. Leaving
+for the lobby (grid button in the top bar, or the pause screen) freezes the
+table exactly like `Esc`; coming back shows the pause screen.
+
+### Playing
 
 1. Pick a chip (or press `1`–`6`).
 2. Click a spot on the felt. Edges and corners select splits, streets, corners,
@@ -41,10 +78,11 @@ wheel, ball, bots and chip animations — and opens a screen with all settings
 exactly where it stopped; a spin in progress still lands on its predetermined
 number. Switching to another browser tab pauses automatically.
 
-## Configuration
+### Configuration
 
-`src/config/gameConfig.ts` — starting balance, chip denominations, table limit,
-phase timings, bot count. Chip colours live in `src/config/chipPalettes.ts`.
+`src/games/roulette/config/gameConfig.ts` — starting balance, chip denominations,
+table limit, phase timings, bot count. Chip colours live in
+`src/games/roulette/config/chipPalettes.ts`.
 
 Developer switches:
 
@@ -52,10 +90,12 @@ Developer switches:
 - `?betting=8` shortens the betting window to 8 seconds.
 - `roulette.forceNextResult(0)` in the browser console forces only the next spin.
 
-## Architecture
+### Architecture
 
 ```
-src/
+src/games/roulette/
+  RouletteGame.tsx  root component (lazy-loaded by the shell)
+  lobbyCard.tsx     lobby artwork (SVG wheel), loaded with the lobby, not the game
   game/        Pure game logic — no React, no Three.js
     roulette/  wheel order, analytic rotor motion, deterministic spin planner
     betting/   bet spots, layout geometry + hit-testing, bet operations
@@ -63,7 +103,7 @@ src/
     bots/      behaviour profiles and per-round planning
     engine/    RoundEngine: IDLE → BETTING → NO_MORE_BETS → SPINNING → RESULT → PAYOUT
     clock.ts   pausable game clock — every timing in the game reads it
-  state/       zustand store (single source of truth) + persisted preferences
+  state/       zustand store (single source of truth, incl. the roulette wallet) + preferences
   three/       3D presentation: SceneManager, wheel, ball, table, chips, camera, lighting
   audio/       Web Audio engine with music / effects / ambient buses, synthesized voices
   components/  HTML/CSS HUD (React)

@@ -1,0 +1,94 @@
+/* Document-level basics shared by the lobby and every game. Game styles stay scoped to their own roots. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #07080a;
+  color: #f3eee4;
+  font-family: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.shell-status {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+  background: #07080a;
+  color: rgba(243, 238, 228, 0.72);
+  font-size: 14px;
+}
+
+.shell-status__spinner {
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(216, 184, 120, 0.18);
+  border-top-color: #d8b878;
+  border-radius: 50%;
+  animation: shell-spin 0.9s linear infinite;
+}
+
+.shell-status__title {
+  color: #f3eee4;
+  font-size: 18px;
+}
+
+.shell-status__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.shell-button {
+  height: 42px;
+  padding: 0 20px;
+  border: 1px solid rgba(243, 238, 228, 0.18);
+  border-radius: 999px;
+  background: transparent;
+  color: #f3eee4;
+  font: 700 12px/1 'Manrope', system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.shell-button--primary {
+  border-color: transparent;
+  background: #d8b878;
+  color: #17130b;
+}
+
+.shell-button:focus-visible {
+  outline: 2px solid #d8b878;
+  outline-offset: 3px;
+}
+
+@keyframes shell-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-status__spinner {
+    animation-duration: 2.4s;
+  }
+}

@@ -1,0 +1,54 @@
+.roulette-card-art {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 65% at 50% 55%, rgba(201, 169, 106, 0.16), transparent 70%),
+    radial-gradient(ellipse at 50% 40%, #13412b 0%, #0b2618 58%, #07140d 100%);
+}
+
+.roulette-card-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.roulette-card-art__wheel {
+  width: min(78%, 300px);
+  height: auto;
+  filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.55));
+  transform: perspective(700px) rotateX(38deg);
+}
+
+.roulette-card-art__rotor {
+  animation: roulette-card-spin 26s linear infinite;
+}
+
+.roulette-card-art__ball {
+  animation: roulette-card-spin 9s linear infinite reverse;
+}
+
+.roulette-card-art__number {
+  fill: #f1ece1;
+  font-family: var(--lobby-font-ui, 'Manrope', sans-serif);
+  font-size: 8px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+@keyframes roulette-card-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roulette-card-art__rotor,
+  .roulette-card-art__ball {
+    animation: none;
+  }
+}

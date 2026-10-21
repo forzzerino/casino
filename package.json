@@ -1,9 +1,9 @@
 {
-  "name": "premium-roulette",
+  "name": "game-lounge",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Premium 3D European roulette vertical slice — React + TypeScript + Three.js",
+  "description": "Virtual-credit casino games behind one lobby — React + TypeScript + Vite",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit -p tsconfig.json && vite build",
