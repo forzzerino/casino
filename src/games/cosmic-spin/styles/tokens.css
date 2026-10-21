@@ -1,0 +1,43 @@
+/* Cosmic Spin design tokens — scoped to the game root so they never leak into the lobby or other games. */
+.cs-root {
+  --bg-primary: #08090d;
+  --bg-secondary: #11131a;
+  --surface: #171a22;
+  --surface-elevated: #20232d;
+  --gold-primary: #ffc247;
+  --gold-light: #ffe6a0;
+  --gold-deep: #a96713;
+  --text-primary: #fff9ec;
+  --text-secondary: #b6b5bf;
+  --success: #70e3a1;
+  --danger: #ff5c65;
+  --cosmic-purple: #8a5cff;
+  --cosmic-blue: #4fb7ff;
+
+  --gold-gradient: linear-gradient(180deg, #fff6d6 0%, var(--gold-light) 22%, var(--gold-primary) 52%, #c9821a 78%, #8f5309 100%);
+  --gold-rim: linear-gradient(140deg, var(--gold-light) 0%, var(--gold-primary) 30%, var(--gold-deep) 62%, #ffd77a 100%);
+  --gold-glow: 0 0 18px rgba(255, 194, 71, 0.28);
+  --panel-fill: linear-gradient(180deg, var(--surface-elevated), var(--bg-secondary));
+  --hairline: rgba(255, 249, 236, 0.1);
+  --text-faint: rgba(255, 249, 236, 0.5);
+
+  --font-display: 'Baloo 2', 'Manrope', system-ui, sans-serif;
+  --font-ui: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+
+  /* Motion system */
+  --ease-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-land: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-big: cubic-bezier(0.22, 1.2, 0.36, 1);
+  --dur-press: 140ms;
+  --dur-small: 180ms;
+  --dur-modal: 240ms;
+  --dur-panel: 380ms;
+  --dur-scene: 650ms;
+
+  --radius-panel: 22px;
+  --radius-control: 14px;
+
+  /* Height taken by everything but the reels (top bar, message, controls, gaps). */
+  --chrome-h: 292px;
+}

@@ -1,0 +1,261 @@
+/*
+ * The reel board. All geometry comes from the frame artwork (1619×971, cell
+ * area 183,144 → 1253×683, cells 234×214 on a 255×235 pitch), expressed in
+ * percentages so the board scales as one piece.
+ */
+.cs-board {
+  position: relative;
+  flex: none;
+  width: min(100%, var(--board-w));
+  aspect-ratio: 1619 / 971;
+  filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.6));
+}
+
+.cs-game.is-free-spins .cs-board {
+  filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 34px rgba(138, 92, 255, 0.45));
+}
+
+.cs-board__frame,
+.cs-board__rims {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cs-board__frame {
+  z-index: 0;
+}
+
+.cs-board__rims {
+  z-index: 2;
+}
+
+.cs-board__reels,
+.cs-board__overlay {
+  position: absolute;
+  left: calc(183 / 1619 * 100%);
+  top: calc(144 / 971 * 100%);
+  width: calc(1253 / 1619 * 100%);
+  height: calc(683 / 971 * 100%);
+}
+
+.cs-board__reels {
+  z-index: 1;
+}
+
+.cs-board__overlay {
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* One column per reel, clipped to its three cells. */
+.cs-reel {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  left: calc(var(--reel) * 255 / 1253 * 100%);
+  width: calc(234 / 1253 * 100%);
+  overflow: hidden;
+  border-radius: 10% / 3.4%;
+  container-type: size;
+}
+
+.cs-reel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.6));
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.cs-reel.is-spinning::after {
+  opacity: 1;
+}
+
+.cs-reel__strip {
+  --cs-pitch: calc(100cqh * 235 / 683);
+  --cs-cell-h: calc(100cqh * 214 / 683);
+  position: absolute;
+  inset: 0;
+}
+
+.cs-reel.is-spinning .cs-reel__strip {
+  will-change: transform;
+}
+
+.cs-reel__cell {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc((var(--i) - 1) * var(--cs-pitch));
+  height: var(--cs-cell-h);
+  display: grid;
+  place-items: center;
+}
+
+/* ── Symbols ─────────────────────────────────────────────── */
+.cs-symbol {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 86%;
+  height: 88%;
+  transition:
+    transform 0.25s var(--ease-land),
+    opacity 0.25s var(--ease-ui),
+    filter 0.25s var(--ease-ui);
+}
+
+.cs-symbol__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.cs-symbol__fallback {
+  display: grid;
+  place-items: center;
+  width: 82%;
+  aspect-ratio: 1;
+  padding: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #3a3f52, #161922);
+  border: 2px solid rgba(255, 194, 71, 0.5);
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: clamp(9px, 1.1vw, 15px);
+  line-height: 1.05;
+  text-align: center;
+  overflow: hidden;
+}
+
+.cs-symbol__multiplier {
+  position: absolute;
+  right: 4%;
+  bottom: 4%;
+  padding: 0.05em 0.35em;
+  border-radius: 0.4em;
+  background: var(--gold-gradient);
+  color: #2b1703;
+  font-family: var(--font-display);
+  font-size: clamp(12px, 1.6vw, 22px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.cs-reel__cell.is-win .cs-symbol {
+  transform: scale(1.09);
+  filter: brightness(1.15) drop-shadow(0 0 10px rgba(255, 194, 71, 0.7));
+  animation: cs-symbol-win 1s var(--ease-ui) infinite;
+}
+
+.cs-reel__cell.is-dim .cs-symbol {
+  opacity: 0.35;
+  filter: saturate(0.5);
+}
+
+@keyframes cs-symbol-win {
+  50% {
+    transform: scale(1.14);
+  }
+}
+
+/* ── Paylines and cell effects ───────────────────────────── */
+.cs-paylines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.cs-paylines__trace {
+  fill: none;
+  stroke: rgba(255, 230, 160, 0.38);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cs-paylines__win {
+  fill: none;
+  stroke: var(--gold-primary);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1600;
+  stroke-dashoffset: 1600;
+  filter: drop-shadow(0 0 6px rgba(255, 194, 71, 0.95));
+  animation: cs-draw-line 0.5s var(--ease-ui) forwards;
+}
+
+.cs-paylines__dot {
+  fill: var(--gold-primary);
+  stroke: #2b1703;
+  stroke-width: 3;
+}
+
+.cs-paylines__number {
+  fill: #2b1703;
+  font-family: var(--font-display);
+  font-size: 20px;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+@keyframes cs-draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.cs-cell-effects {
+  position: absolute;
+  inset: 0;
+}
+
+.cs-win-cell {
+  position: absolute;
+}
+
+.cs-win-cell::before {
+  content: '';
+  position: absolute;
+  inset: 2%;
+  border-radius: 11%;
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 220, 130, 0.95),
+    inset 0 0 22px rgba(255, 194, 71, 0.45),
+    0 0 22px rgba(255, 194, 71, 0.55);
+  animation: cs-cell-glow 1s ease-in-out infinite;
+}
+
+.cs-win-cell.is-scatter::before,
+.cs-win-cell.is-bonus::before {
+  box-shadow:
+    inset 0 0 0 3px rgba(190, 150, 255, 0.95),
+    inset 0 0 22px rgba(138, 92, 255, 0.5),
+    0 0 24px rgba(138, 92, 255, 0.6);
+}
+
+.cs-win-cell__fx {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 175%;
+  transform: translate(-50%, -50%);
+}
+
+.cs-win-cell__fx.is-wild-aura {
+  width: 150%;
+}
+
+@keyframes cs-cell-glow {
+  50% {
+    opacity: 0.55;
+  }
+}

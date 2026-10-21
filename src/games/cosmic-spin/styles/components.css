@@ -1,0 +1,414 @@
+/* ── Buttons ──────────────────────────────────────────────── */
+.cs-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform var(--dur-press) var(--ease-ui),
+    filter var(--dur-small) var(--ease-ui),
+    box-shadow var(--dur-small) var(--ease-ui),
+    background var(--dur-small) var(--ease-ui);
+}
+
+.cs-button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.97);
+}
+
+.cs-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cs-button--gold {
+  background: var(--gold-gradient);
+  color: #2b1703;
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.45);
+  box-shadow:
+    0 0 0 2px rgba(60, 32, 0, 0.6),
+    0 8px 22px rgba(0, 0, 0, 0.5),
+    0 0 26px rgba(255, 194, 71, 0.35),
+    inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 0 rgba(120, 60, 0, 0.45);
+}
+
+.cs-button--gold:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow:
+    0 0 0 2px rgba(60, 32, 0, 0.6),
+    0 10px 26px rgba(0, 0, 0, 0.55),
+    0 0 38px rgba(255, 194, 71, 0.5),
+    inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 0 rgba(120, 60, 0, 0.45);
+}
+
+.cs-button--ghost {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg-secondary), var(--bg-secondary)) padding-box,
+    var(--gold-rim) border-box;
+  color: var(--gold-light);
+  font-size: 15px;
+}
+
+.cs-button--ghost:hover:not(:disabled) {
+  background:
+    linear-gradient(#1d1a12, #15130d) padding-box,
+    var(--gold-rim) border-box;
+  box-shadow: var(--gold-glow);
+}
+
+.cs-button--large {
+  min-height: 56px;
+  padding: 0 38px;
+  font-size: 22px;
+}
+
+.cs-button--hero {
+  min-height: 70px;
+  min-width: min(320px, 80vw);
+  padding: 0 44px;
+  font-size: 30px;
+}
+
+.cs-chip-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 194, 71, 0.4);
+  border-radius: 999px;
+  background: rgba(17, 19, 26, 0.85);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background var(--dur-small),
+    border-color var(--dur-small);
+}
+
+.cs-chip-button:hover {
+  background: rgba(40, 32, 14, 0.9);
+  border-color: var(--gold-primary);
+}
+
+/* Round dark buttons with a gold rim (top bar, tools). */
+.cs-icon-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 35%, #2a2d38, #12141b 70%) padding-box,
+    var(--gold-rim) border-box;
+  color: var(--gold-light);
+  cursor: pointer;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition:
+    transform var(--dur-press) var(--ease-ui),
+    box-shadow var(--dur-small),
+    color var(--dur-small);
+}
+
+.cs-icon-button:hover:not(:disabled) {
+  color: #fff;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(255, 194, 71, 0.4);
+}
+
+.cs-icon-button:active:not(:disabled) {
+  transform: scale(0.93);
+}
+
+.cs-icon-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cs-icon-group {
+  display: flex;
+  gap: 8px;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(8, 9, 13, 0.55);
+  border: 1px solid var(--hairline);
+}
+
+/* ── Meters (balance, win) ────────────────────────────────── */
+.cs-meter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 148px;
+  height: 54px;
+  padding: 0 22px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #1c1f29, #0e1016) padding-box,
+    var(--gold-rim) border-box;
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    var(--gold-glow);
+}
+
+.cs-meter__label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  opacity: 0.85;
+}
+
+.cs-meter__value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.cs-meter.is-compact {
+  height: 48px;
+  min-width: 130px;
+}
+
+.cs-meter--win.has-win .cs-meter__value {
+  color: var(--gold-light);
+  text-shadow: 0 0 14px rgba(255, 194, 71, 0.6);
+}
+
+/* ── Segmented, sliders, switches ─────────────────────────── */
+.cs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.cs-field__label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.cs-field__hint {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.cs-segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(8, 9, 13, 0.7);
+  border: 1px solid var(--hairline);
+  align-self: flex-start;
+}
+
+.cs-segmented button {
+  min-width: 64px;
+  height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    background var(--dur-small),
+    color var(--dur-small);
+}
+
+.cs-segmented button:hover {
+  color: var(--text-primary);
+}
+
+.cs-segmented button.is-active {
+  background: var(--gold-gradient);
+  color: #2b1703;
+}
+
+.cs-segmented--large button {
+  min-width: 72px;
+  height: 52px;
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.cs-slider {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.cs-slider__label {
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.cs-slider__value {
+  text-align: right;
+  font-weight: 800;
+  color: var(--gold-light);
+}
+
+.cs-slider input[type='range'] {
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  margin: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-primary));
+  cursor: pointer;
+}
+
+.cs-slider input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff4cf, var(--gold-primary) 55%, var(--gold-deep));
+  box-shadow: 0 0 0 3px rgba(8, 9, 13, 0.8), 0 0 12px rgba(255, 194, 71, 0.6);
+}
+
+.cs-slider input[type='range']::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--gold-primary);
+}
+
+.cs-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.cs-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 16px 0 10px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: rgba(8, 9, 13, 0.6);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cs-switch__track {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: #2b2e39;
+  transition: background var(--dur-small);
+}
+
+.cs-switch__track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #8b8a93;
+  transition:
+    transform var(--dur-small) var(--ease-ui),
+    background var(--dur-small);
+}
+
+.cs-switch.is-on .cs-switch__track {
+  background: rgba(255, 194, 71, 0.35);
+}
+
+.cs-switch.is-on .cs-switch__track::after {
+  transform: translateX(18px);
+  background: var(--gold-primary);
+}
+
+.cs-switch__state {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+/* ── Toast ────────────────────────────────────────────────── */
+.cs-toast {
+  position: absolute;
+  z-index: 60;
+  left: 50%;
+  bottom: 168px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(520px, calc(100vw - 32px));
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: rgba(17, 19, 26, 0.95);
+  border: 1px solid rgba(255, 194, 71, 0.35);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+  color: var(--text-primary);
+  font-weight: 600;
+  transform: translateX(-50%);
+  animation: cs-toast-in var(--dur-panel) var(--ease-enter);
+}
+
+.cs-toast svg {
+  flex: none;
+  color: var(--gold-primary);
+}
+
+.cs-toast.is-error {
+  border-color: rgba(255, 92, 101, 0.55);
+}
+
+.cs-toast.is-error svg {
+  color: var(--danger);
+}
+
+.cs-toast.is-success svg {
+  color: var(--success);
+}
+
+@keyframes cs-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+}

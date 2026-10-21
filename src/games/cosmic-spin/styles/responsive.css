@@ -1,0 +1,397 @@
+/* Large desktop keeps the defaults. Below, the layout is reorganised rather than just shrunk. */
+
+@media (max-width: 1240px) {
+  .cs-mascot {
+    display: none;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .cs-root {
+    --chrome-h: 300px;
+  }
+
+  .cs-icon-button.is-secondary {
+    display: none;
+  }
+
+  .cs-jackpot {
+    min-width: 200px;
+    padding: 12px 22px 6px;
+  }
+
+  .cs-jackpot__value {
+    font-size: 24px;
+  }
+
+  .cs-meter {
+    min-width: 124px;
+    padding: 0 16px;
+  }
+
+  .cs-controls {
+    gap: 14px;
+  }
+
+  .cs-controls__side {
+    gap: 10px;
+  }
+
+  .cs-spin {
+    width: 104px;
+    height: 104px;
+  }
+
+  .cs-menu {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .cs-menu__mascot {
+    display: none;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .cs-root {
+    font-size: 14px;
+    --chrome-h: 360px;
+  }
+
+  .cs-topbar {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'left right'
+      'center center';
+    gap: 8px 10px;
+    padding: 10px 10px 2px;
+  }
+
+  .cs-topbar__left {
+    gap: 8px;
+  }
+
+  .cs-topbar__right {
+    gap: 8px;
+  }
+
+  .cs-topbar__center {
+    justify-self: center;
+    padding-top: 8px;
+  }
+
+  .cs-logo--small {
+    --logo-size: 15px;
+  }
+
+  .cs-icon-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .cs-icon-group {
+    gap: 4px;
+    padding: 3px;
+  }
+
+  .cs-meter--balance {
+    height: 44px;
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  .cs-meter--balance .cs-meter__value {
+    font-size: 18px;
+  }
+
+  .cs-jackpot {
+    min-width: 170px;
+    padding: 10px 18px 4px;
+    border-radius: 14px;
+  }
+
+  .cs-jackpot__tab {
+    top: -11px;
+    font-size: 12px;
+  }
+
+  .cs-jackpot__value {
+    font-size: 20px;
+  }
+
+  .cs-message {
+    min-height: 34px;
+    font-size: 13px;
+  }
+
+  .cs-message__amount {
+    font-size: 22px;
+  }
+
+  .cs-fs-bar {
+    gap: 10px;
+    padding: 4px 14px;
+    font-size: 12px;
+  }
+
+  .cs-controls {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 8px;
+    padding: 4px 10px max(12px, env(safe-area-inset-bottom));
+  }
+
+  .cs-controls__side--left {
+    justify-content: flex-start;
+  }
+
+  .cs-controls__side--right {
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  .cs-meter--win {
+    display: none;
+  }
+
+  .cs-bet {
+    flex-direction: column;
+    height: auto;
+    padding: 6px 4px;
+    border-radius: 22px;
+    gap: 2px;
+  }
+
+  .cs-bet__value {
+    min-width: 64px;
+    order: -1;
+  }
+
+  .cs-bet .cs-round-button {
+    display: none;
+  }
+
+  .cs-bet:has(.cs-round-button) {
+    flex-direction: row;
+    border-radius: 999px;
+    padding: 4px;
+  }
+
+  .cs-bet:has(.cs-round-button) .cs-round-button {
+    display: grid;
+    width: 36px;
+    height: 36px;
+  }
+
+  .cs-bet:has(.cs-round-button) .cs-bet__value {
+    order: 0;
+    min-width: 48px;
+  }
+
+  .cs-bet__amount {
+    font-size: 19px;
+  }
+
+  .cs-spin {
+    width: 92px;
+    height: 92px;
+  }
+
+  .cs-spin__label {
+    bottom: 12px;
+    font-size: 12px;
+  }
+
+  .cs-tool {
+    min-width: 46px;
+  }
+
+  .cs-tool__icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .cs-tool__label {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+  }
+
+  .cs-toast {
+    bottom: 140px;
+  }
+
+  .cs-menu {
+    padding: 64px 16px 28px;
+  }
+
+  .cs-button--hero {
+    min-height: 62px;
+    font-size: 26px;
+  }
+
+  .cs-modal__header {
+    padding: 16px 16px 12px 18px;
+  }
+
+  .cs-modal__body {
+    padding: 14px 18px 18px;
+  }
+
+  .cs-modal__title {
+    font-size: 24px;
+  }
+
+  .cs-slider {
+    grid-template-columns: 84px 1fr 34px;
+  }
+
+  .cs-rule {
+    grid-template-columns: 60px 1fr;
+    gap: 12px;
+  }
+
+  .cs-rule .cs-symbol,
+  .cs-rule__badge {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cs-feature__mascot,
+  .cs-bigwin__mascot {
+    height: 34vh;
+    opacity: 0.9;
+  }
+
+  .cs-bonus__result {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cs-bonus__mascot {
+    display: none;
+  }
+}
+
+/*
+ * Portrait phones and tablets: the reels fill the width and the frame's outer
+ * ornaments are cropped (the board is wider than the screen, centred by
+ * negative margins), with the mascot peeking over the top of the frame.
+ */
+@media (max-width: 1023px) and (orientation: portrait) {
+  .cs-stage {
+    --board-crop-w: calc((100vw - 12px) / 0.774);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .cs-stage__center {
+    align-items: flex-start;
+  }
+
+  .cs-board {
+    width: var(--board-crop-w);
+    max-width: none;
+    margin-inline: calc((100% - var(--board-crop-w)) / 2);
+  }
+
+  .cs-message {
+    align-self: stretch;
+  }
+
+  .cs-fs-bar {
+    align-self: center;
+  }
+
+  .cs-mascot {
+    display: block;
+    top: 0;
+    bottom: auto;
+    left: 50%;
+    height: min(28%, 260px);
+    transform: translate(-50%, calc(-4% + 6px));
+  }
+
+  .cs-mascot__pose {
+    object-position: center bottom;
+  }
+}
+
+/* Narrow phones: tools show icons only (their names stay as accessible labels). */
+@media (max-width: 480px) {
+  .cs-tool__label {
+    display: none;
+  }
+
+  .cs-controls__side--right {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 380px) {
+  .cs-spin {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* Short landscape screens (phones turned sideways). */
+@media (max-height: 560px) and (orientation: landscape) {
+  .cs-root {
+    --chrome-h: 190px;
+  }
+
+  .cs-topbar {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-areas: 'left center right';
+    padding: 6px 14px 0;
+  }
+
+  .cs-topbar__center {
+    padding-top: 8px;
+  }
+
+  .cs-stage {
+    padding: 0 12px;
+  }
+
+  .cs-board {
+    width: min(100%, var(--board-w));
+  }
+
+  .cs-controls {
+    padding: 0 14px 6px;
+  }
+
+  .cs-spin {
+    width: 76px;
+    height: 76px;
+  }
+
+  .cs-spin__label {
+    display: none;
+  }
+
+  .cs-spin__icon {
+    margin: 0;
+  }
+
+  .cs-message {
+    min-height: 26px;
+  }
+}
+
+/* Reduced motion: keep information, drop the movement. */
+.cs-root[data-reduced-motion] *,
+.cs-root[data-reduced-motion] *::before,
+.cs-root[data-reduced-motion] *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0ms !important;
+  transition-duration: 1ms !important;
+}
+
+.cs-root[data-reduced-motion] .cs-sprite {
+  display: none;
+}

@@ -8,6 +8,7 @@ language and a few generic utilities. No real money is involved anywhere.
 | Game | Route | Folder |
 | --- | --- | --- |
 | European Roulette (3D, Three.js) | `#/roulette` | `src/games/roulette/` |
+| Cosmic Spin (5×3 slot, 20 paylines) | `#/cosmic-spin` | `src/games/cosmic-spin/` |
 
 ## Run
 
@@ -15,11 +16,17 @@ language and a few generic utilities. No real money is involved anywhere.
 npm install
 npm run dev        # http://localhost:5173
 npm run build      # typecheck + production bundle in dist/
-npm test           # unit tests
+npm test           # unit + interaction tests (Vitest, jsdom for UI tests)
+npm run test:e2e   # end-to-end tests (Playwright, desktop + mobile)
 ```
 
-The app opens on the lobby. Pick a game card; the URL hash (`#/roulette`) keeps
-you in that game across reloads, and the browser Back button returns to the lobby.
+The app opens on the lobby. Pick a game card; the URL hash (`#/roulette`,
+`#/cosmic-spin`) keeps you in that game across reloads, and the browser Back
+button returns to the lobby.
+
+`npm run test:e2e` starts its own dev server on port 5174 and uses the locally
+installed Chrome. Without Chrome, run `npx playwright install chromium` once and
+set `PW_CHANNEL=` (empty).
 
 ## Project structure
 
@@ -31,6 +38,7 @@ src/
   games/
     registry.ts     The list of games: id/route, lobby card, code-split loader
     roulette/       Everything roulette (see below)
+    cosmic-spin/    Everything Cosmic Spin (see below)
   shared/           Game-agnostic code only — never imports a game
     i18n/           Shared language store (TR/EN) + typed translator helpers
     shell/          ShellContext (exitToLobby) and the GameEntry / LobbyCard types
@@ -122,3 +130,98 @@ every bounce you see is also the one you hear. Tests check all 37 outcomes.
 `ChipFactory` each expose a small surface (a `group`, plus e.g. `setRotorAngle`,
 `setBall`, `materials()`), so any of them can be replaced by a loaded GLB without
 touching the game or camera code.
+
+## Cosmic Spin
+
+A space-themed 5×3 slot with 20 fixed paylines, played with its own virtual
+wallet (10,000 starting credits, separate from roulette). Flow: intro → main
+menu → game, with Free Spins, a bonus-pick game, multipliers, a virtual jackpot,
+autoplay, three spin speeds, a session summary, settings and a paytable.
+
+### Rules (all from `game/config/`)
+
+- **Bets:** 20, 40, 100, 200, 500 or 1,000 credits — multiples of the 20
+  paylines, so every line bet is a whole number of credits.
+- **Lines:** paid left to right from the leftmost reel, best win per line only.
+  Pays are in line bets (`payouts.ts`, values from the approved symbol catalog).
+- **WILD** substitutes for every regular symbol (never SCATTER, BONUS or
+  MULTIPLIER); a run of WILDs alone pays its own row; a line takes the better of
+  the two.
+- **SCATTER** anywhere: 3/4/5 pay 2×/10×/50× the bet and award 8/12/18 Free
+  Spins (retriggerable, at most 250 per session).
+- **Free Spins** cost nothing, play at the triggering bet, use reels with more
+  WILDs and the **MULTIPLIER** symbol (×2/×3/×5/×10). Multipliers on one spin add
+  up and apply to that spin's line wins only.
+- **BONUS** ×3+ (base game): pick 1 of 5 capsules. Contents are drawn when the
+  bonus starts; only the picked capsule pays (bet multiples, a multiplied Power
+  Boost, a 1,000-credit Space Bounty, Free Spins or a 100× Cosmic Treasure).
+- **Jackpot:** 1% of every paid bet feeds the pool (seed 25,000). 5+ WILDs
+  anywhere win pool × bet ÷ 1,000 (the whole pool at max bet); the pool never
+  drops below the seed.
+- **Win tiers:** big ≥ 10× bet, mega ≥ 30× bet, jackpot.
+
+### Mathematics
+
+`engine/rtp.ts` computes the return exactly from the configuration (per-reel
+window enumeration plus a closed-form payline expectation; multipliers and
+retriggers included). With the shipped weights: **95.6 % theoretical RTP,
+jackpot excluded** (target 96 %), Free Spins about 1 in 219 spins, bonus about
+1 in 237, jackpot about 1 in 11,000 base spins (1 in 930 free spins). A seeded
+150,000-spin simulation in the tests must agree with it; a seeded 1,000,000-spin
+run returned 96.2 % with a 25.5 % hit rate — with this volatility, about ±1 %
+from the exact figure is normal. These are properties of the configuration, not
+a promise for any session.
+
+### How a spin works
+
+`state/spinActions.ts` draws the whole outcome (grid, wins, bonus capsules) and
+the reel timing **before** anything moves. The reducer (`state/gameReducer.ts`)
+settles it in one step — bet deducted and win credited exactly once — and the
+balance display holds the win back until the reels reveal it. Every phase
+change is checked against `state/transitions.ts`, so double clicks, late timers
+or skips can never pay twice. `state/controller.ts` only schedules timed
+transitions and sound cues; a watchdog moves the game on if a presentation ever
+stalls. Speed modes (normal / quick / turbo) and reduced motion change timings
+only.
+
+```
+src/games/cosmic-spin/
+  CosmicSpinGame.tsx  root (lazy-loaded), keyboard controls, modal host
+  runtime.ts          store + controller + audio + persistence for one mount
+  lobbyCard.tsx       lobby artwork, loaded with the lobby
+  game/config/        symbols, paylines, payouts, reel weights, rules, presentation timings
+  game/engine/        rng, grid generator, evaluator, spin, bonus, jackpot, rtp, simulate
+  state/              types, reducer, transitions, selectors, controller, persistence, store
+  features/           intro, menu, slot board + controls, bonus, win scenes, paytable, settings, …
+  audio/              Web Audio manager, synthesized sound effects and generative music
+  assets/manifest.ts  every artwork path, by semantic name
+  i18n/               Turkish (default) and English
+  styles/             design tokens and component styles, scoped under .cs-root
+```
+
+The session (wallet, bet, jackpot, statistics, settings, and any Free Spins or
+unopened bonus in progress) is saved to `localStorage` under a versioned,
+validated schema; a reload resumes through the feature's intro. It is a
+client-side demo, not a tamper-proof ledger.
+
+**Developer hooks (dev server only):** `?seed=123` makes outcomes reproducible;
+`cosmicSpin.forceNext([[…5 symbols], […], […]])` in the console makes the next
+spin land on that grid (still evaluated by the real engine).
+
+### Assets
+
+The raw art pack lives in `cosmicspin/reference/` (not committed).
+`npm run assets:cosmic-spin` (needs `ffmpeg` with libwebp) converts it into
+`public/assets/cosmic-spin/` (≈3.3 MB of WebP): symbols at 384 px plus
+motion-blurred copies for spinning reels, backgrounds in two sizes, mascot
+poses, the slot frame plus an extracted rim overlay (symbols spin under the gold
+rims), and effect sheets turned into single-row sprite strips with real alpha
+(their baked checkerboard / haze backgrounds are removed). Components only use
+paths from `assets/manifest.ts`; missing artwork falls back to a styled label.
+
+Not used from the pack: `effects/energy-ring.png` (its rings sit on a
+semi-opaque gold haze that cannot be separated cleanly) and the reference
+sheets. `COSMIC_SPIN_ASSET_PLAN.md` was not part of the delivery. No audio
+files were supplied: every sound and the music are synthesized; recordings can
+be added in `public/assets/cosmic-spin/audio/` and listed in `AUDIO_FILES`
+(a missing file falls back to the synthesized sound).

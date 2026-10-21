@@ -32,6 +32,9 @@ export function randomSeed(): number {
   return cryptoUint32();
 }
 
+/** Uniform [0, 1) from the platform CSPRNG — for outcomes that must not be predictable. */
+export const secureRng: Rng = () => cryptoUint32() / 4294967296;
+
 export function rngRange(rng: Rng, min: number, max: number): number {
   return min + (max - min) * rng();
 }

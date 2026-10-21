@@ -1,0 +1,625 @@
+/* ── Big / Mega / Jackpot win ─────────────────────────────── */
+.cs-bigwin {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.cs-bigwin__dim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, rgba(26, 15, 0, 0.6), rgba(0, 0, 0, 0.88) 75%);
+  animation: cs-fade-in 0.3s ease both;
+}
+
+.cs-bigwin__rays {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 170vmax;
+  height: 170vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 194, 71, 0.15) 0deg 7deg, transparent 7deg 20deg);
+  -webkit-mask: radial-gradient(circle, #000 0, transparent 55%);
+  mask: radial-gradient(circle, #000 0, transparent 55%);
+  transform: translate(-50%, -50%);
+  animation:
+    cs-fade-in 0.6s ease both,
+    cs-rays 26s linear infinite;
+}
+
+@keyframes cs-rays {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.cs-bigwin__columns {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 12%, rgba(255, 214, 120, 0.16) 14%, transparent 16%),
+    linear-gradient(90deg, transparent 30%, rgba(255, 214, 120, 0.1) 31.5%, transparent 33%),
+    linear-gradient(90deg, transparent 67%, rgba(255, 214, 120, 0.1) 68.5%, transparent 70%),
+    linear-gradient(90deg, transparent 84%, rgba(255, 214, 120, 0.16) 86%, transparent 88%);
+  -webkit-mask: linear-gradient(to top, transparent, #000 40%, transparent);
+  mask: linear-gradient(to top, transparent, #000 40%, transparent);
+  animation: cs-columns 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes cs-columns {
+  from {
+    opacity: 0.35;
+    transform: translateY(4%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-2%);
+  }
+}
+
+.cs-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cs-bigwin__burst {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: min(110vw, 1100px);
+  transform: translate(-50%, -50%);
+}
+
+.cs-bigwin__mascot {
+  position: absolute;
+  bottom: -4%;
+  left: max(2%, calc(50% - 560px));
+  height: min(64vh, 560px);
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
+  animation: cs-mascot-pop 0.7s var(--ease-big) 0.15s both;
+}
+
+@keyframes cs-mascot-pop {
+  from {
+    opacity: 0;
+    transform: translateY(40%) scale(0.85);
+  }
+}
+
+.cs-bigwin__ufo {
+  position: absolute;
+  top: 8%;
+  left: 0;
+  width: clamp(80px, 10vw, 140px);
+  filter: drop-shadow(0 0 24px rgba(79, 183, 255, 0.6));
+  animation: cs-ufo-pass 5s ease-in-out 0.4s infinite;
+}
+
+@keyframes cs-ufo-pass {
+  0% {
+    transform: translate(-20vw, 0) rotate(-6deg);
+  }
+  50% {
+    transform: translate(50vw, 3vh) rotate(4deg);
+  }
+  100% {
+    transform: translate(120vw, -2vh) rotate(-4deg);
+  }
+}
+
+.cs-bigwin__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.cs-bigwin__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(54px, 10vw, 132px);
+  line-height: 0.95;
+  text-transform: uppercase;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 6px 0 #5b3204) drop-shadow(0 0 30px rgba(255, 194, 71, 0.55));
+  animation: cs-title-slam 0.75s var(--ease-big) both;
+}
+
+.cs-bigwin.is-mega .cs-bigwin__title,
+.cs-bigwin.is-jackpot .cs-bigwin__title {
+  animation:
+    cs-title-slam 0.9s var(--ease-big) both,
+    cs-title-glow 1.2s ease-in-out 0.9s infinite alternate;
+}
+
+@keyframes cs-title-slam {
+  0% {
+    opacity: 0;
+    transform: scale(2.4) rotate(-4deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.94) rotate(1deg);
+  }
+}
+
+@keyframes cs-title-glow {
+  to {
+    filter: drop-shadow(0 6px 0 #5b3204) drop-shadow(0 0 48px rgba(255, 214, 120, 0.9));
+  }
+}
+
+.cs-bigwin__amount {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 7.5vw, 100px);
+  line-height: 1;
+  color: #fffaf0;
+  text-shadow:
+    0 0 24px rgba(255, 194, 71, 0.85),
+    0 4px 0 #6b3a05;
+  font-variant-numeric: tabular-nums;
+  animation: cs-rise-in 0.5s var(--ease-enter) 0.35s both;
+}
+
+.cs-bigwin__note {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--gold-light);
+}
+
+.cs-bigwin__content .cs-button {
+  margin-top: 18px;
+  animation: cs-fade-in 0.4s ease 0.8s both;
+}
+
+/* ── Free spins intro / outro ─────────────────────────────── */
+.cs-feature {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: radial-gradient(ellipse at 50% 45%, rgba(40, 14, 80, 0.55), rgba(0, 0, 0, 0.85) 75%);
+  animation: cs-fade-in 0.35s ease both;
+}
+
+.cs-feature__burst {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: min(120vw, 1100px);
+  transform: translate(-50%, -50%);
+}
+
+.cs-feature__mascot {
+  position: absolute;
+  right: max(2%, calc(50% - 600px));
+  bottom: -2%;
+  height: min(58vh, 520px);
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
+  animation: cs-mascot-pop 0.7s var(--ease-big) 0.2s both;
+}
+
+.cs-feature__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(560px, 100%);
+  padding: 34px 32px 30px;
+  border: 2px solid transparent;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(35, 20, 70, 0.95), rgba(14, 10, 26, 0.96)) padding-box,
+    linear-gradient(140deg, var(--gold-light), var(--cosmic-purple) 45%, var(--gold-primary)) border-box;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(138, 92, 255, 0.35);
+  text-align: center;
+  animation: cs-card-in 0.6s var(--ease-big) both;
+}
+
+@keyframes cs-card-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translateY(20px);
+  }
+}
+
+.cs-feature__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(44px, 7vw, 72px);
+  line-height: 1;
+  text-transform: uppercase;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 0 #5b3204) drop-shadow(0 0 22px rgba(255, 194, 71, 0.45));
+}
+
+.cs-feature__big {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 30px);
+  color: #fff;
+}
+
+.cs-feature__label {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.cs-feature__amount {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(44px, 7vw, 76px);
+  line-height: 1;
+  color: var(--gold-light);
+  text-shadow: 0 0 26px rgba(255, 194, 71, 0.7);
+}
+
+.cs-feature__note {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.cs-feature__hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+/* ── Bonus capsules ──────────────────────────────────────── */
+.cs-bonus {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vh, 34px);
+  padding: 24px 16px;
+  background: var(--bg-primary);
+  overflow-y: auto;
+  isolation: isolate;
+  animation: cs-fade-in 0.4s ease both;
+}
+
+/* The space-station scene, darkened at the centre so the capsules read clearly. */
+.cs-bonus__scene {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask: radial-gradient(ellipse 70% 65% at 50% 55%, rgba(0, 0, 0, 0.35), #000 85%);
+  mask: radial-gradient(ellipse 70% 65% at 50% 55%, rgba(0, 0, 0, 0.35), #000 85%);
+  animation: cs-scene-in 0.9s var(--ease-enter) both;
+}
+
+@keyframes cs-scene-in {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+}
+
+.cs-bonus__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.cs-bonus__intro-ufo {
+  width: clamp(140px, 22vw, 240px);
+  filter: drop-shadow(0 0 40px rgba(79, 183, 255, 0.6));
+  animation:
+    cs-pop-in 0.7s var(--ease-big) both,
+    cs-float 3s ease-in-out 0.7s infinite;
+}
+
+.cs-bonus__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(38px, 6vw, 68px);
+  line-height: 1;
+  text-transform: uppercase;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 0 #5b3204) drop-shadow(0 0 24px rgba(79, 183, 255, 0.45));
+}
+
+.cs-bonus__intro .cs-bonus__title {
+  animation: cs-title-slam 0.8s var(--ease-big) 0.2s both;
+}
+
+.cs-bonus__header {
+  text-align: center;
+  animation: cs-rise-in 0.5s var(--ease-enter) both;
+}
+
+.cs-bonus__subtitle {
+  margin: 10px 0 0;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.cs-bonus__capsules {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(10px, 2.4vw, 34px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-capsule {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(84px, 13vw, 140px);
+  animation: cs-rise-in 0.55s var(--ease-big) calc(var(--capsule) * 0.08s) both;
+}
+
+.cs-capsule__shell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.55;
+  padding: 0;
+  border: 0;
+  border-radius: 40% / 22%;
+  background: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s var(--ease-land),
+    filter 0.25s var(--ease-ui),
+    opacity 0.3s var(--ease-ui);
+}
+
+.cs-capsule__shell:hover:not(:disabled),
+.cs-capsule__shell:focus-visible {
+  transform: translateY(-8px) scale(1.04);
+  filter: drop-shadow(0 0 22px rgba(255, 194, 71, 0.6));
+}
+
+.cs-capsule__shell:disabled {
+  cursor: default;
+}
+
+/* Metal collars: gold, riveted, with a dark seam where they meet the glass. */
+.cs-capsule__cap {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  height: 14%;
+  border-radius: 46% 46% 16% 16% / 80% 80% 28% 28%;
+  background:
+    radial-gradient(circle at 24% 62%, rgba(70, 36, 0, 0.7) 0 4%, transparent 5%),
+    radial-gradient(circle at 76% 62%, rgba(70, 36, 0, 0.7) 0 4%, transparent 5%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.25), transparent 30%, rgba(255, 255, 255, 0.25) 45%, transparent 60%, rgba(0, 0, 0, 0.3)),
+    linear-gradient(180deg, #fff3cc 0%, #f7c55a 32%, #b97516 72%, #6a3a06 100%);
+  box-shadow:
+    inset 0 -4px 0 rgba(70, 35, 0, 0.65),
+    inset 0 2px 0 rgba(255, 255, 255, 0.6),
+    0 6px 14px rgba(0, 0, 0, 0.55);
+  z-index: 2;
+}
+
+.cs-capsule__cap.is-top {
+  top: 0;
+}
+
+.cs-capsule__cap.is-bottom {
+  bottom: 0;
+  transform: scaleY(-1);
+}
+
+.cs-capsule__glass {
+  position: absolute;
+  left: 13%;
+  right: 13%;
+  top: 11%;
+  bottom: 11%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 40% / 20%;
+  border: 1px solid rgba(200, 230, 255, 0.4);
+  background: linear-gradient(90deg, rgba(110, 170, 255, 0.16), rgba(255, 255, 255, 0.3) 28%, rgba(110, 170, 255, 0.08) 58%, rgba(255, 255, 255, 0.16));
+  box-shadow:
+    inset 0 0 22px rgba(110, 170, 255, 0.4),
+    0 0 26px rgba(110, 170, 255, 0.3);
+  z-index: 1;
+}
+
+.cs-capsule__icon {
+  position: relative;
+  z-index: 1;
+  width: 74%;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
+
+.cs-capsule__core {
+  position: absolute;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0, rgba(255, 211, 110, 0.75) 28%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: cs-pulse 1.8s ease-in-out calc(var(--capsule) * -0.3s) infinite;
+}
+
+.cs-capsule.is-picked .cs-capsule__shell {
+  animation: cs-capsule-open 0.9s var(--ease-big) both;
+  filter: drop-shadow(0 0 30px rgba(255, 214, 120, 0.9));
+}
+
+.cs-capsule.is-picked .cs-capsule__cap.is-top {
+  animation: cs-cap-off 0.6s var(--ease-ui) 0.35s both;
+}
+
+.cs-capsule.is-other .cs-capsule__shell {
+  opacity: 0.35;
+  filter: grayscale(0.7);
+  transform: scale(0.92);
+}
+
+.cs-capsule__burst {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 260%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+@keyframes cs-capsule-open {
+  30% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+  45% {
+    transform: scale(1.08) rotate(3deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes cs-cap-off {
+  to {
+    transform: translateY(-60%) rotate(-18deg);
+    opacity: 0;
+  }
+}
+
+.cs-reward {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 100%;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(10, 11, 18, 0.88);
+  border: 1px solid var(--hairline);
+  text-align: center;
+  animation: cs-pop-in 0.4s var(--ease-land) both;
+}
+
+.cs-reward.is-primary {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(180deg, #2a1f0b, #120d05) padding-box,
+    var(--gold-rim) border-box;
+  box-shadow: 0 0 26px rgba(255, 194, 71, 0.45);
+  animation-delay: 0.6s;
+}
+
+.cs-reward__title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.cs-reward.is-primary .cs-reward__title {
+  color: var(--gold-light);
+}
+
+.cs-reward__amount {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.cs-reward.is-primary .cs-reward__amount {
+  font-size: 24px;
+  color: var(--gold-light);
+}
+
+.cs-reward__breakdown {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.cs-reward.is-treasure.is-primary {
+  box-shadow: 0 0 40px rgba(255, 214, 120, 0.8);
+}
+
+.cs-bonus__result {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 24px 14px 14px;
+  border-radius: 24px;
+  background: rgba(10, 11, 18, 0.8);
+  border: 1px solid rgba(255, 194, 71, 0.35);
+  animation: cs-rise-in 0.5s var(--ease-enter) 0.3s both;
+}
+
+.cs-bonus__result > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-bonus__mascot {
+  height: 110px;
+}
+
+.cs-bonus__won {
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.cs-bonus__won-amount {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1.05;
+  color: var(--gold-light);
+  text-shadow: 0 0 20px rgba(255, 194, 71, 0.6);
+}
+
+.cs-bonus__next {
+  font-weight: 700;
+  color: #c9b4ff;
+}

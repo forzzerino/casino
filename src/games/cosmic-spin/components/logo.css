@@ -1,0 +1,101 @@
+/* The COSMIC SPIN wordmark. Shared by the game and its lobby card, so it carries its own fallbacks. */
+.cs-logo {
+  --logo-size: 34px;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.86;
+  padding: 0.12em 0.5em 0.2em;
+  font-family: 'Baloo 2', 'Manrope', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: var(--logo-size);
+  letter-spacing: 0.02em;
+  isolation: isolate;
+  user-select: none;
+}
+
+.cs-logo--small {
+  --logo-size: 21px;
+}
+
+.cs-logo--medium {
+  --logo-size: 38px;
+}
+
+.cs-logo--large {
+  --logo-size: clamp(54px, 9vw, 96px);
+}
+
+.cs-logo__word {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(180deg, #fff6d6 0%, #ffe6a0 22%, #ffc247 52%, #c9821a 78%, #8f5309 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0.05em 0 #6b3a05) drop-shadow(0 0.09em 0.08em rgba(0, 0, 0, 0.7));
+}
+
+.cs-logo__word--top {
+  transform: rotate(-6deg) translateX(-0.08em);
+}
+
+.cs-logo__word--bottom {
+  font-size: 1.22em;
+  transform: rotate(-6deg) translateX(0.18em);
+  margin-top: -0.06em;
+}
+
+.cs-logo__orbit {
+  position: absolute;
+  inset: -12% -16%;
+  width: 132%;
+  height: 124%;
+  z-index: 0;
+  overflow: visible;
+}
+
+.cs-logo__orbit ellipse {
+  filter: drop-shadow(0 0 6px rgba(255, 194, 71, 0.6));
+}
+
+.cs-logo__sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 48%, transparent 60%);
+  background-size: 250% 100%;
+  mix-blend-mode: overlay;
+  -webkit-mask: linear-gradient(#000, #000);
+  animation: cs-logo-sweep 3.6s ease-in-out 0.6s infinite;
+}
+
+.cs-logo.is-animated .cs-logo__planet {
+  transform-origin: 200px 86px;
+  animation: cs-logo-orbit 9s linear infinite;
+}
+
+@keyframes cs-logo-sweep {
+  0% {
+    background-position: 120% 0;
+  }
+  45%,
+  100% {
+    background-position: -40% 0;
+  }
+}
+
+@keyframes cs-logo-orbit {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-logo__sweep,
+  .cs-logo.is-animated .cs-logo__planet {
+    animation: none;
+  }
+}
